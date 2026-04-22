@@ -1,4 +1,3 @@
-<!-- index.html -->
 <!DOCTYPE html>
 <html lang="es">
 
@@ -11,7 +10,7 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI"
         crossorigin="anonymous"></script>
-    <title>Pokedex</title>
+    <title>Favoritos</title>
 </head>
 
 <body>
@@ -21,10 +20,12 @@
 
     <input type="text" id="searchInput" placeholder="Search Pokemon">
     <button id="searchBtn">Search</button>
+    <button id="favoritesBtn">Favorites</button>
     <button id="prevBtn">Previous</button>
     <button id="nextBtn">Next</button>
     <button id="resetBtn">Reset</button>
-    <div id="app"></div>
+    <button id="backToPokedexBtn">Volver</button>
+    <div id="favoritos"></div>
     <div id="spinner" class="spinner-border text-dark" role="status">
         <span class="visually-hidden">Loading...</span>
     </div>
