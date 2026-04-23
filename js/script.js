@@ -11,28 +11,61 @@ const spinner = document.getElementById("spinner");
 
 //variables globales
 let offset = 1;
-let limit = 10;
+let limit = 9;
 
 //FETCH POKEMON
 
-function fetchPokemon(id) {
-    fetch(`${API_URL}${id}`)
-        .then(res => res.json())
-        .then(data => {
-            console.log(data)
-            enseñarPokemon(data);
-            spinner.classList.add("hidden");
-        })
-}
+// function fetchPokemon(id) {
+//     fetch(`${API_URL}${id}`)
+//         .then((res) => {
+//             if (!res.ok) {
+//                 throw new Error("Pokemon no encontrado");
+//             }
+//             return res.json();
+//         })
+//         .then(data => {
+//             console.log(data)
+//             enseñarPokemon(data);
+//             spinner.classList.add("hidden");
+//         })
+// }
 
-function traerPokemons(offset, limit) {
-    spinner.classList.remove("hidden");
-    for (let i = offset; i <= offset + limit; i++) {
-        fetchPokemon(i);
+//FETCH CON ASYNC Y AWAIT
+
+async function fetchPokemon(id) {
+    try {
+        const data = await fetchJSON(`${API_URL}${id}`); enseñarPokemon(data);
+    } catch (error) {
+        console.error("Error al obtener Pokemon:", error.message);
+    } finally {
+        spinner.classList.add("hidden");
     }
 }
 
+const fetchJSON = async (url) => {
+    const res = await fetch(url);
+    if (!res.ok) {
+        throw new Error(`Error HTTP: ${res.status}`);
+    }
+    return await res.json();
+};
 
+
+// function traerPokemons(offset, limit) {
+//     spinner.classList.remove("hidden");
+//     for (let i = offset; i <= offset + limit; i++) {
+//         fetchPokemon(i);
+//     }
+// }
+
+// TRAER POKEMONS CON ASYNC Y AWAIT
+
+async function traerPokemons(offset, limit) {
+    spinner.classList.remove("hidden");
+    for (let i = offset; i <= offset + limit; i++) {
+        await fetchPokemon(i);
+    }
+}
 
 function enseñarPokemon(pokemon) {
     const pokemonCard = document.createElement("div");
