@@ -17,13 +17,26 @@ header {
 
 }
 
-#app {
+.app,
+.favoritos {
   display: flex;
   justify-content: center;
   flex-wrap: wrap;
   gap: 20px;
-
   padding: 20px;
+}
+
+.removeBtn {
+  background-color: #FF0000;
+  color: white;
+  border: 1px solid black;
+  border-radius: 5px;
+  padding: 5px;
+  cursor: pointer;
+}
+
+.removeBtn:hover {
+  background-color: #ff000080;
 }
 
 .pagination {
@@ -48,7 +61,9 @@ header {
 #searchBtn,
 #prevBtn,
 #nextBtn,
-#resetBtn {
+#resetBtn,
+#favoritesBtn,
+#backToPokedexBtn {
   margin: 10px 0;
   padding: 10px;
   border: none;
@@ -58,6 +73,12 @@ header {
 
 #searchBtn {
   background-color: #4caf50;
+  color: white;
+}
+
+#favoritesBtn,
+#backToPokedexBtn {
+  background-color: #f1c40f;
   color: white;
 }
 

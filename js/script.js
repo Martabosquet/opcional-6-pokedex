@@ -7,13 +7,14 @@ const searchBtn = document.getElementById("searchBtn");
 const searchInput = document.getElementById("searchInput");
 const contenedor = document.getElementById("app");
 const spinner = document.getElementById("spinner");
+const favoritesBtn = document.getElementById("favoritesBtn");
+const backToPokedexBtn = document.getElementById("backToPokedexBtn");
 
-
-//variables globales
+//variables pokemon por pantalla
 let offset = 1;
 let limit = 9;
 
-//FETCH POKEMON
+//FETCH CON THEN METHOD
 
 // function fetchPokemon(id) {
 //     fetch(`${API_URL}${id}`)
@@ -77,10 +78,40 @@ function enseñarPokemon(pokemon) {
             <p class="pokemon-info">Base stat: ${pokemon.stats[0].base_stat}</p>
         </div>
         <h3>${pokemon.name}</h3>
-        <!-- <button class="favoriteBtn">Add to favorites</button> -->
+        <button class="favoriteBtn">Add to favorites</button>
     `
+    // evento para hacer click en favorito
+    const btnFavorito = pokemonCard.querySelector(".favoriteBtn");
+
+    btnFavorito.addEventListener("click", () => {
+        añadirAFavoritos(pokemon);
+    });
     contenedor.appendChild(pokemonCard);
 };
+
+//función para añadir favoritos
+
+function añadirAFavoritos(pokemon) {
+    let favoritos = JSON.parse(localStorage.getItem("misFavoritos")) || [];
+
+    const existe = favoritos.some(fav => fav.id === pokemon.id); // Evitar duplicados
+
+    if (!existe) {
+        favoritos.push(pokemon); // añadimos el pokemon
+        localStorage.setItem("misFavoritos", JSON.stringify(favoritos)); // guardamos
+        alert(`${pokemon.name} añadido a favoritos!`); // mensaje
+    } else {
+        alert("Este Pokémon ya está en tus favoritos");
+    }
+    //window.location.href = 'favoritos.html'; REDIRECCIÓN: Vamos a la pestaña de favoritos
+}
+
+// FUNCIÓN PARA RESETEAR LOS POKEMONS QUE YA NO SE TIENEN QUE VER EN PANTALLA
+function removePokemons(pokemon) {
+    while (contenedor.firstChild) {
+        contenedor.removeChild(contenedor.firstChild);
+    }
+}
 
 //AÑADO LOS EVENTOS PARA LOS BOTONES
 
@@ -104,14 +135,17 @@ resetBtn.addEventListener("click", () => {
     traerPokemons(offset, limit);
 });
 
-searchBtn.addEventListener("click", insertPokemon);
+//eventos para navegar entre pestañas
 
-// FUNCIÓN PARA RESETEAR LOS POKEMONS QUE YA NO SE TIENEN QUE VER EN PANTALLA
-function removePokemons(pokemon) {
-    while (contenedor.firstChild) {
-        contenedor.removeChild(contenedor.firstChild);
-    }
-}
+favoritesBtn.addEventListener('click', () => {
+    window.location.href = 'favoritos.html';
+});
+
+backToPokedexBtn.addEventListener('click', () => {
+    window.location.href = 'index.html';
+});
+
+
 
 //FUNCION PARA INSERTAR Y BUSCAR LOS POKEMONS
 
@@ -134,6 +168,14 @@ async function insertPokemon() {
         searchInput.value = "";
     }
 }
+
+searchBtn.addEventListener("click", insertPokemon);
+
+searchInput.addEventListener("keydown", (event) => { // Clicar en ENTER para que pueda entrar en el pokemon buscado
+    if (event.key === "Enter") {
+        insertPokemon();
+    }
+});
 
 //INICIAMOS LA PÁGINA CON LOS PRIMEROS 10 POKEMONS
 
